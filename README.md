@@ -53,6 +53,11 @@ Se tiene una pagina para probar el servidor en el que se tiene un input para que
 ![](./img/Pagina.PNG)
 ![](./img/Pagina2.PNG)
 ![](./img/Consulta.PNG)
+En el caso de que el usuario ingrese algo que no se tiene contemplado (una URL diferente a las que se especifica se debe manejar) el servidor mostrará un mensaje Not Found 404.
+
+Como se observa, despues de estas consultas erroneas el servidor continua estando listo para recibir otras solicitudes
+![](./img/Error.PNG)
+![](./img/Error2.PNG)
 # Despliegue 📦
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://weatherconsult.herokuapp.com/clima)
 El despliegue de la aplicación se encuentra en [HTTP-SERVER](https://weatherconsult.herokuapp.com/clima)

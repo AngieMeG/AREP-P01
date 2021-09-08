@@ -174,6 +174,8 @@ public class HttpServer {
             out.write(content.getBytes());
         } catch (IOException e) {
             System.err.format("Response not found %s%n", e);
+            default404HTMLResponse(out);
+
         }
     }
 
