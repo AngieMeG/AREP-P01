@@ -49,7 +49,7 @@ mvn test
 ```
 
 ## Ejecución
-Se tiene una pagina para probar el servidor en el que se tiene un input para que el usuario ingrese la ciudad que desea consultar, si se le da al boton de enviar se redirerccionara a la URL manejada para manejar la consulta y se podra observar la respuesta del API en formato JSON
+Se tiene una pagina para probar el servidor en el que se tiene un input para que el usuario ingrese la ciudad que desea consultar, si se le da al boton de enviar se redireccionará a la URL que se tiene para manejar la consulta y se podra observar la respuesta del API en formato JSON
 ![](./img/Pagina.PNG)
 ![](./img/Pagina2.PNG)
 ![](./img/Consulta.PNG)
