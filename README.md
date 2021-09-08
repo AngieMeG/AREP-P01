@@ -52,8 +52,8 @@ mvn test
 Se tiene una pagina para probar el servidor en el que se tiene un input para que el usuario ingrese la ciudad que desea consultar, si se le da al boton de enviar se redirerccionara a la URL manejada para manejar la consulta y se podra observar la respuesta del API en formato JSON
 
 # Despliegue 📦
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://weatherconsult.herokuapp.com/)
-El despliegue de la aplicación se encuentra en [HTTP-SERVER](https://weatherconsult.herokuapp.com/)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://weatherconsult.herokuapp.com/clima)
+El despliegue de la aplicación se encuentra en [HTTP-SERVER](https://weatherconsult.herokuapp.com/clima)
 
 ## Construido con 🛠️
 

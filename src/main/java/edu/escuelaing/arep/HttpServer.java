@@ -173,7 +173,7 @@ public class HttpServer {
             br.close();
             out.write(content.getBytes());
         } catch (IOException e) {
-            System.err.format("FileNotFoundException %s%n", e);
+            System.err.format("Response not found %s%n", e);
         }
     }
 
