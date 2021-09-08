@@ -18,7 +18,11 @@ public class HttpServer {
                                                 + "\r\n";
     private static final String JSON_MESSAGE = "HTTP/1.1 200 OK\n"
                                                 + "Content-Type: application/json\r\n"
-                                                + "\r\n";                                                
+                                                + "\r\n";        
+    private static final String HTTP_MESSAGE_NOT_FOUND = "HTTP/1.1 404 Not Found\n"
+                                                + "Content-Type: text/html\r\n"
+                                                + "\r\n";
+                                        
 
     /**
      * Gets the current instance of the server
@@ -99,12 +103,18 @@ public class HttpServer {
         if(type.length() == 0) type = "clima";
         if(type.equals("clima")){
             computeWelcomePage(out);
-        } else{
+        } else if(type.contains("consulta?lugar=")){
             computeAPIResource(out, type);
+        } else{
+
         }
     }
 
 
+    /**
+     * Display a simple html page to consult the api
+     * @param out the stream the resource need to display on the client
+     */
     public void computeWelcomePage(OutputStream out){
         String outputLine = TEXT_MESSAGE_OK;
         outputLine +=   "<!DOCTYPE html>"
@@ -115,8 +125,18 @@ public class HttpServer {
                         +           "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.8\">"
                         +       "</head>"
                         +       "<body>"
-                        +           "<h1> Working </h1>"
-                        +       "</body>"
+                        +       "<div class='container center'>"
+                        +           "<div class='card'>"
+                        +           "<h1> <span class='dot'></span> CONSULT THE WHEATER API HERE <span class='dot'></span></h1>"
+                        +           "<p>Type here the city you want to consult</p>"
+                        +           "<div class='info-wrapper'>"
+                        +           "<input id='inputField'>"
+                        +           "<button id='submit'>Sent it</button>"
+                        +       "</div>"
+                        +       "<p><strong>Side Note: </strong> To go back from the resource just erase the last part of the URL until the last / inclusive</p>"
+                        +      "</div>"
+                        +      "</body>"
+                        +       "<script src='src/main/resources/static/script.js'></script=>"
                         + "</html>";
         try{
             out.write(outputLine.getBytes());
@@ -125,10 +145,16 @@ public class HttpServer {
         }
     }
 
+    /**
+     * Read and write on screen the api response and returned in form of JSON
+     * @param out the stream the resources need to display on the client
+     * @param input the request
+     */
     public void computeAPIResource(OutputStream out, String input){
         System.out.println("RECEIVED: " + input);
         String content = JSON_MESSAGE;
         try {
+            input = input.replace("consulta?lugar=", "");
             InputStream is = new URL(WEATHER_URL.replaceFirst("cityname", input)).openStream();
             BufferedReader br = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
             StringBuilder sb = new StringBuilder();
@@ -141,6 +167,35 @@ public class HttpServer {
             out.write(content.getBytes());
         } catch (IOException e) {
             System.err.format("FileNotFoundException %s%n", e);
+        }
+    }
+
+    /**
+     * Display a simple html page of 404 Error
+     * @param out the stream the resource need to display on the client
+     */
+    private void default404HTMLResponse(OutputStream out){
+        String outputline = HTTP_MESSAGE_NOT_FOUND;
+        outputline +=     "<!DOCTYPE html>"
+                        + "<html>"
+                        +       "<head>"
+                        +           "<title>404 Not Found</title>\n"
+                        +           "<meta charset=\"UTF-8\">"
+                        +           "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.8\">"
+                        +           "<style type='text/css'>"
+                        +               "h1{"
+                        +                   "font-size: 150px;"
+                        +                   "text-align: center;"
+                        +           "</style>"
+                        +       "</head>"
+                        +       "<body>"
+                        +           "<h1> Error 404 </h1>"
+                        +       "</body>"
+                        + "</html>";
+        try {
+            out.write(outputline.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
