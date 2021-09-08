@@ -106,7 +106,7 @@ public class HttpServer {
         } else if(type.contains("consulta?lugar=")){
             computeAPIResource(out, type);
         } else{
-
+            default404HTMLResponse(out);
         }
     }
 
