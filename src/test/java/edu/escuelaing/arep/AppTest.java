@@ -1,38 +1,63 @@
 package edu.escuelaing.arep;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.Assert;
+import org.junit.Test;
+import static org.junit.Assert.fail;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 
 /**
  * Unit test for simple App.
+ * @author Angie Medina
  */
-public class AppTest 
-    extends TestCase
-{
+public class AppTest {
+    private static final String URL_STRING = "https://weatherconsult.herokuapp.com/";
+    private static final String URL_STRING_JSON = "https://weatherconsult.herokuapp.com/consulta?lugar=";
+
+
     /**
-     * Create the test case
-     *
-     * @param testName name of the test case
+     * Test if the url is been deployed by heroku
      */
-    public AppTest( String testName )
-    {
-        super( testName );
+    @Test
+    public void shouldFindPage(){
+        try{
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(URL_STRING).openStream()));
+        } catch(IOException e) {
+            fail("Resource: " + URL_STRING + " was not found.");
+        }
     }
 
     /**
-     * @return the suite of tests being tested
+     * Test the static resource that is html
      */
-    public static Test suite()
-    {
-        return new TestSuite( AppTest.class );
+    @Test
+    public void shouldReturnHTMLContent(){
+        try{
+            URL urlWelcomePage = new URL(URL_STRING);
+            URLConnection u  = urlWelcomePage.openConnection();
+            String type = u.getHeaderField("Content-Type");
+            Assert.assertEquals("text/html", type);
+        } catch(IOException e) {
+            fail("Resource: " + URL_STRING + " was not found.");
+        }
     }
 
     /**
-     * Rigourous Test :-)
+     * Test the format of the request
      */
-    public void testApp()
-    {
-        assertTrue( true );
+    @Test
+    public void shouldReturnJSONContent(){
+        try{
+            URL urlWelcomePage = new URL(URL_STRING_JSON + "london");
+            URLConnection u  = urlWelcomePage.openConnection();
+            String type = u.getHeaderField("Content-Type");
+            Assert.assertEquals("application/json", type);
+        } catch(IOException e) {
+            fail("Resource: " + URL_STRING_JSON + " was not found.");
+        }
     }
 }
